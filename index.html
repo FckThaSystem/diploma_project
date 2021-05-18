@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/font-awesome/css/font-awesome.min.css">
+    <style>
+        @font-face {
+            font-family: 'PT Serif', serif;
+            src: url(fonts/PTSerif-Regular.ttf);
+        }
+    </style>
+</head>
+<body>
+<header>
+    <div class="menu_left">
+        <button class="home default_btn">Главная</button>
+        <button class="my_projects default_btn">Мои проекты</button>
+        <input type="search" class="no-shadow_input" placeholder="Поиск">
+    </div>
+    <div class="user_settings">
+        <div class="user_data">
+            <button class="registration default_btn">Регистрация</button>
+            <button class="authorization default_btn">Авторизация</button>
+        </div>
+        <select name="theme" id="theme">
+            <option value="1">Темная</option>
+            <option value="2" selected="selected">Светлая</option>
+        </select>
+    </div>
+</header>
+<div class="main_container">
+
+</div>
+<div class="footer">
+
+</div>
+<div id="modal_registration" class="modal">
+    <div class="modal_container">
+        <div class="modal_header">
+            <span class="modal_head">Регистрация</span><span class="modal_close">&#215;</span>
+        </div>
+        <div class="modal_body">
+            <div class="flex_column_block">
+                <span class="modal_error"><ul></ul></span>
+                <label for="name">Имя</label>
+                <input type="text" name="name" id="name">
+                <label for="email">E-mail</label>
+                <input type="email" name="email" id="email">
+                <label for="birthday">Дата рождения</label>
+                <input type="date" name="birthday" id="birthday">
+                <div class="sex">
+                    <label for="male">мужчина</label>
+                    <input type="radio" name="sex" id="male" value="male" checked="checked">
+                    <label for="female">женщина</label>
+                    <input type="radio" name="sex" id="female" value="female">
+                </div>
+                <label for="password">Пароль</label>
+                <input type="password" name="password" id="password">
+                <button class="submit_reg btn_primary">Зарегистроваться</button>
+<!--                <button class="auth">Уже есть аккаунт?</button>-->
+            </div>
+        </div>
+    </div>
+</div>
+<div id="modal_authorization" class="modal">
+    <div class="modal_container">
+        <div class="modal_header">
+            <span class="modal_head">Авторизация</span><span class="modal_close">&#215;</span>
+        </div>
+        <div class="modal_body">
+            <div class="flex_column_block">
+                <span class="modal_error"><ul></ul></span>
+                <input type="email" placeholder="e-mail" name="email">
+                <input type="password" placeholder="пароль" name="password">
+                <div class="remember_me">
+                    <input type="checkbox" name="remember" id="remember">
+                    <label for="remember">Запомнить меня</label>
+                </div>
+                <button class="log_in btn_primary">Войти</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="modal_success" class="modal">
+    <div class="modal_container">
+        <div class="modal_header">
+            <span class="modal_head">Регистрация успешна!</span>
+        </div>
+        <div class="modal_body">
+
+        </div>
+    </div>
+</div>
+<div id="task_create" class="popup_create">
+    <div class="popup_header">
+        <button class="popup_close_btn btn_primary">
+            <i class="fa fa-times" aria-hidden="true"></i>
+        </button>
+        <h3 class="popup_title">Создание новой задачи</h3></div>
+        <div class="new_task_form flex_column_block" data-project_id="">
+        <ul class="modal_error"></ul>
+        <label for="task_name">Название задачи</label>
+        <input type="text" name="title" id="task_name" placeholder="Название задачи" style="width: 95%">
+        <label for="task_name">Описание задачи</label>
+        <textarea type="text" name="description" id="task_description" placeholder="Описание задачи" style="width: 95%; height: 250px"></textarea>
+        <label for="executor_name">Исполнитель</label>
+        <input type="text" name="executor" id="executor_name" placeholder="Имя исполнителя" style="width: 95%" data-input="autocomplete">
+        <div class="executor"></div>
+        <label for="observer_name">Наблюдатель</label>
+        <input type="text" name="observer" id="observer_name" placeholder="Имя наблюдателя" style="width: 95%" data-input="autocomplete">
+        <div class="observer"></div>
+        <div class="flex_row_block">
+            <div class="row_item">
+                <label for="deadline">Крайний срок:</label>
+                <input type="date" name="deadline" id="deadline" pattern="[0-9]{2}.[0-9]{2}.[0-9]{4}">
+            </div>
+        </div>
+        </select>
+        <button class="btn_create_task btn_primary">Создать задачу</button>
+    </div>
+</div>
+<div id="view_task" class="popup_create">
+    <div class="popup_header">
+        <button class="popup_close_btn btn_primary">
+            <i class="fa fa-times" aria-hidden="true"></i>
+        </button>
+        <h3 class="popup_title">Детали задачи</h3></div>
+    <div class="flex_column_block task_body">
+
+    </div>
+</div>
+<div id="project_create" class="modal">
+    <div class="modal_container">
+        <div class="modal_header">
+            <span class="modal_head">Создание проекта</span><span class="modal_close">&#215;</span>
+        </div>
+        <ul class="modal_error"></ul>
+        <div class="modal_body">
+            <div class="flex_column_block">
+                <span class="modal_error"><ul></ul></span>
+                <label for="project_name">Название проекта</label>
+                <input type="text" placeholder="Введите название проекта" name="project_name" id="project_name">
+                <label for="project_name">Моя должность</label>
+                <input type="text" placeholder="Введите название должности" name="owner_position" id="owner_position">
+                <div class="add_user_block" data-count="0">
+
+                </div>
+                <div class="default_box-row">
+                    <button class="add_user_btn btn_primary">Добавить участника<i style="margin-left: 10px" class="fa fa-user-plus" aria-hidden="true"></i></button>
+                    <button id="create_project" class="btn_primary">Создать проект</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="js/main.js"></script>
+</body>
+</html>

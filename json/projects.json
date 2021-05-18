@@ -1,0 +1,333 @@
+[
+  {
+    "project": "Online pet store",
+    "project_id": 1,
+    "project_users": [
+      {
+        "user_id": 1,
+        "user_position": "Front-end Developer"
+      },
+      {
+        "user_id": 2,
+        "user_position": "Back-end Developer"
+      },
+      {
+        "user_id": 3,
+        "user_position": "Digital Marketer"
+      },
+      {
+        "user_id": 4,
+        "user_position": "Web Designer"
+      }
+    ],
+    "tasks": [
+      {
+        "id": 1,
+        "status": 0,
+        "title": "Реализация дипломной работы",
+        "description": "Создать шаблон для дипломного проета",
+        "date": {
+            "start": "30.04.2021",
+            "deadline": "29.05.2021",
+            "complete": ""
+          },
+        "users" : {
+          "setter": {
+            "id": 1
+          },
+          "executor": {
+            "id": 2
+          },
+          "observer": {
+            "id": 3
+          }
+        }
+      },
+      {
+        "id": 2,
+        "status": 0,
+        "title": "Верстка стайта по макету",
+        "description": "Верстка главной страницы сайта по макету",
+        "date": {
+            "start": "30.04.2021",
+            "deadline": "25.05.2021",
+            "complete": ""
+          },
+        "users" : {
+          "setter": {
+            "id": 3
+          },
+          "executor": {
+            "id": 1
+          },
+          "observer": {
+            "id": 2
+          }
+        }
+      },
+      {
+        "id": 3,
+        "status": 0,
+        "title": "Доработка модуля",
+        "description": "Доработать модуль для сайта",
+        "date": {
+            "start": "30.04.2021",
+            "deadline": "01.05.2021",
+            "complete": ""
+          },
+        "users" : {
+          "setter": {
+            "id": 2
+          },
+          "executor": {
+            "id": 1
+          },
+          "observer": {
+            "id": 3
+          }
+        }
+      },
+      {
+        "id": 4,
+        "status": 0,
+        "title": "Создать макет",
+        "description": "Верстка макета по шаблону",
+        "date": {
+            "start": "30.04.2021",
+            "deadline": "20.05.2021",
+            "complete": ""
+          },
+        "users" : {
+          "setter": {
+            "id": 1
+          },
+          "executor": {
+            "id": 3
+          },
+          "observer": {
+            "id": 2
+          }
+        }
+      }
+    ]
+  },
+  {
+    "project": "Data base project",
+    "project_id": 2,
+    "project_users": [
+      {
+        "user_id": 1,
+        "user_position": "Front-end Developer"
+      },
+      {
+        "user_id": 2,
+        "user_position": "Back-end Developer"
+      }
+    ],
+    "tasks": [{
+      "id": 5,
+      "status": 0,
+      "title": "Верстка макета",
+      "description": "Верстка макета по шаблону",
+      "date": {
+        "start": "30.04.2021",
+        "deadline": "30.05.2021",
+        "complete": ""
+      },
+      "users": {
+        "setter": {
+          "id": 1
+        },
+        "executor": {
+          "id": 2
+        },
+        "observer": {
+          "id": 3
+        }
+      }
+    },
+      {
+        "id": 6,
+        "status": 0,
+        "title": "Верстка макета 2",
+        "description": "Верстка макета по шаблону",
+        "date": {
+            "start": "30.04.2021",
+            "deadline": "30.05.2021",
+            "complete": ""
+          },
+        "users" : {
+          "setter": {
+            "id": 3
+          },
+          "executor": {
+            "id": 1
+          },
+          "observer": {
+            "id": 2
+          }
+        }
+      },
+      {
+        "id": 7,
+        "status": 0,
+        "title": "Верстка макета 3",
+        "description": "Верстка макета по шаблону",
+        "date": {
+            "start": "30.04.2021",
+            "deadline": "30.05.2021",
+            "complete": ""
+          },
+        "users" : {
+          "setter": {
+            "id": 2
+          },
+          "executor": {
+            "id": 1
+          },
+          "observer": {
+            "id": 3
+          }
+        }
+      },
+      {
+        "id": 8,
+        "status": 0,
+        "title": "Верстка макета 4",
+        "description": "Верстка макета по шаблону",
+        "date": {
+            "start": "30.04.2021",
+            "deadline": "30.05.2021",
+            "complete": ""
+          },
+        "users" : {
+          "setter": {
+            "id": 1
+          },
+          "executor": {
+            "id": 3
+          },
+          "observer": {
+            "id": 2
+          }
+        }
+      }
+    ]
+  },
+  {
+    "project": "Landing page project",
+    "project_id": 3,
+    "project_users": [
+      {
+        "user_id": 1,
+        "user_position": "Front-end Developer"
+      },
+      {
+        "user_id": 2,
+        "user_position": "Back-end Developer"
+      },
+      {
+        "user_id": 3,
+        "user_position": "Digital Marketer"
+      },
+      {
+        "user_id": 4,
+        "user_position": "Web Designer"
+      },
+      {
+        "user_id": 5,
+        "user_position": "Project Manager"
+      }
+    ],
+    "tasks":[
+      {
+        "id": 9,
+        "status": 0,
+        "title": "Верстка лендинга",
+        "description": "Верстка страницы лендинга по шаблону",
+        "date": {
+            "start": "30.04.2021",
+            "deadline": "30.05.2021",
+            "complete": ""
+          },
+        "users" : {
+          "setter": {
+            "id": 5
+          },
+          "executor": {
+            "id": 1
+          },
+          "observer": {
+            "id": 5
+          }
+        }
+      },
+      {
+        "id": 10,
+        "status": 0,
+        "title": "Создание базы данных",
+        "description": "Создание базы данных для лендинга",
+        "date": {
+            "start": "30.04.2021",
+            "deadline": "30.05.2021",
+            "complete": ""
+          },
+        "users" : {
+          "setter": {
+            "id": 5
+          },
+          "executor": {
+            "id": 2
+          },
+          "observer": {
+            "id": 5
+          }
+        }
+      },
+      {
+        "id": 11,
+        "status": 0,
+        "title": "Создание макета лендинга",
+        "description": "Создание макета для лендинга",
+        "date": {
+            "start": "30.04.2021",
+            "deadline": "30.05.2021",
+            "complete": ""
+          },
+        "users" : {
+          "setter": {
+            "id": 5
+          },
+          "executor": {
+            "id": 4
+          },
+          "observer": {
+            "id": 5
+          }
+        }
+      },
+      {
+        "id": 12,
+        "status": 0,
+        "title": "Маркетинговая стратегия",
+        "description": "Создание стратегии развития проекта",
+        "date": {
+            "start": "30.04.2021",
+            "deadline": "30.05.2021",
+            "complete": ""
+          },
+        "users" : {
+          "setter": {
+            "id": 5
+          },
+          "executor": {
+            "id": 3
+          },
+          "observer": {
+            "id": 5
+          }
+        }
+      }
+    ]
+  }
+]
