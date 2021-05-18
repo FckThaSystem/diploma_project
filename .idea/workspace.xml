@@ -1,7 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="89206c34-2dae-4edc-a1dc-0d5ba8e17f76" name="Default Changelist" comment="" />
+    <list default="true" id="89206c34-2dae-4edc-a1dc-0d5ba8e17f76" name="Default Changelist" comment="18.05.2021  10:23">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/css/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/css/style.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/js/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/main.js" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -11,6 +25,11 @@
     <execution />
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectId" id="1shPadABDSUTgiZN5mYGJhCaQGV" />
@@ -36,16 +55,44 @@
       <workItem from="1621322344274" duration="104000" />
       <workItem from="1621322490551" duration="22000" />
       <workItem from="1621322528796" duration="8000" />
+      <workItem from="1621322574237" duration="19630000" />
     </task>
+    <task id="LOCAL-00001" summary="18.05.2021  10:23">
+      <created>1621322665567</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1621322665567</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="18.05.2021  10:23" />
+    <option name="LAST_COMMIT_MESSAGE" value="18.05.2021  10:23" />
   </component>
   <component name="WindowStateProjectService">
     <state x="771" y="295" key="FileChooserDialogImpl" timestamp="1621322505041">
       <screen x="62" y="0" width="1858" height="1080" />
     </state>
     <state x="771" y="295" key="FileChooserDialogImpl/62.0.1858.1080/1982.0.1858.1080@62.0.1858.1080" timestamp="1621322505041" />
+    <state x="583" y="273" key="Vcs.Push.Dialog.v2" timestamp="1621322680363">
+      <screen x="62" y="0" width="1858" height="1080" />
+    </state>
+    <state x="583" y="273" key="Vcs.Push.Dialog.v2/62.0.1858.1080/1982.0.1858.1080@62.0.1858.1080" timestamp="1621322680363" />
   </component>
 </project>

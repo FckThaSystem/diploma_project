@@ -621,63 +621,81 @@ function viewTask() {
     let viewTaskModal = document.getElementById('view_task');
     let viewTaskBody = viewTaskModal.querySelector('.task_body');
     let viewTaskClose = viewTaskModal.querySelector('.popup_close_btn');
-    let globalProject = getLocalData('projects_data');
     let viewTaskBtns = document.querySelectorAll('.project-block .project_task .view_task');
         viewTaskBtns.forEach(item =>{
         item.addEventListener('click', function (e) {
-            let tasksArr = [];
             let thisId = +this.getAttribute('data-id');
-            globalProject.forEach(function (project) {
-                project['tasks'].forEach(function (task) {
-                    tasksArr.push(task);
-                })
-            })
-            let currentTaskArr = tasksArr.filter(item => {
-                if(item['id'] === thisId){
-                    return item
-                }
-            })
-            let currentTask = currentTaskArr[0];
+            let currentTask = getCurrentTask(thisId);
             let taskStatus = taskStatusName(currentTask.status);
-            let userSetter = getUser(currentTask.users.setter.id);
-            let userExecutor = getUser(currentTask.users.executor.id);
-            let userObserver = getUser(currentTask.users.observer.id);
-            let html = `<div class="view_task_row"><span>Название задачи: </span><span>${currentTask.title}</span></div>
-            <div class="view_task_row"><span>Описание задачи: </span><span>${currentTask.description}</span></div>
+            let userSetter = getUser(currentTask.users.setter.id, 'view');
+            let userExecutor = getUser(currentTask.users.executor.id, 'view');
+            let userObserver = getUser(currentTask.users.observer.id, 'view');
+            let html = `<div class="view_task_row"><h4>Название задачи: </h4><p>${currentTask.title}</p></div><hr/>
+            <div class="default_box"><h4>Описание задачи: </h4><span>${currentTask.description}</span></div>
             <div class="view_task_row">
-            <div class="default_box"><span>Поставил: </span><span>${userSetter}</span></div>
-            <div class="default_box"><span>Выполняет: </span><span>${userExecutor}</span></div>
-            <div class="default_box"><span>Наблюдает: </span><span>${userObserver}</span></div>
-            </div>
-            
-            <div class="view_task_row"><span>Дата постановки: </span><span>${currentTask.date.start}</span></div>
-            <div class="view_task_row"><span>Выполнить до: </span><span>${currentTask.date.deadline}</span></div>
-            <div class="view_task_row"><span>Статус: </span><span>${taskStatus}</span></div>`
+            <div class="view_task_grid"><h4>Постановщик: </h4><span class="default_box users_row">${userSetter}</span></div>
+            <div class="view_task_grid"><h4>Ответственный: </h4><span class="default_box users_row">${userExecutor}</span></div>
+            <div class="view_task_grid"><h4>Наблюдатель: </h4><span class="default_box users_row">${userObserver}</span></div>
+            </div>`
+            switch (currentTask.status){
+                case 3:
+                    html += `<div class="view_task_row"><h4>Статус: </h4><span>Задача просрочена</span></div><hr/>`
+                    break;
+                case 2:
+                    html += `<div class="view_task_row"><h4>Дата постановки: </h4><span>${currentTask.date.start}</span></div><hr/>
+                             <div class="view_task_row"><h4>Дата выполнения: </h4><span>${currentTask.date.complete}</span></div><hr/>
+                             <div class="view_task_row"><h4>Статус: </h4><span>${taskStatus}</span></div><hr/>`
+                    break;
+                default:
+                    html += `<div class="view_task_row"><h4>Дата постановки: </h4><span>${currentTask.date.start}</span></div><hr/>
+                             <div class="view_task_row"><h4>Выполнить до: </h4><span>${currentTask.date.deadline}</span></div><hr/>
+                             <div class="view_task_row"><h4>Статус: </h4><span>${taskStatus}</span></div><hr/>`
+            }
+            if(currentTask.users.setter.id === getLocalUser()['id']){
+                html += `<button class="edit-task btn_primary" data-id="${thisId}">Редактировать задачу</button>`
+            }
             viewTaskBody.innerHTML = html;
             viewTaskModal.classList.add('modal_active');
-        })
-    })
-
-    function getUser(id) {
-        let usersArr = getLocalData('users_data');
-        let user = usersArr.filter(item => {
-            if(item['id'] === id){
-                console.log(item['id'], id)
-                return item
+            let editTask = document.querySelector('#view_task .edit-task');
+            if(editTask){
+                editTask.addEventListener('click', taskEdit);
             }
         })
-        let userAvatar = ifNoAvatar(user[0]['avatar']);
-        let html = `<img src="${userAvatar}"><span>${user[0]['name']}</span>`
-        return html
-    }
-
-
+    })
 viewTaskClose.addEventListener('click', viewPopupClose)
     function viewPopupClose() {
         viewTaskModal.classList.remove('modal_active');
         viewTaskBody.innerHTML = '';
-        viewTaskClose.removeEventListener('click', viewPopupClose)
     }
+}
+function getUser(id, appointment) {
+    let usersArr = getLocalData('users_data');
+    let user = usersArr.filter(item => {
+        if(item['id'] === id){
+            console.log(item['id'], id)
+            return item
+        }
+    })
+    let userAvatar = ifNoAvatar(user[0]['avatar']);
+    return appointment === 'view' ? `<img src="${userAvatar}"><span>${user[0]['name']}</span>` : user;
+}
+function taskEdit() {
+    let taskId = +this.getAttribute('data-id');
+    let currentTask = getCurrentTask(taskId);
+    console.log(currentTask);
+
+}
+function getCurrentTask(id) {
+    let projects = getLocalData('projects_data');
+    let taskArr = [];
+    projects.forEach(project => {
+        project['tasks'].filter(task => {
+            if(task['id'] === id){
+                taskArr.push(task)
+            }
+        })
+    })
+    return taskArr[0]
 }
 function loadTasks(id, selectVal) {
     let usersData = getLocalData('users_data');
@@ -886,7 +904,7 @@ function renderTasks(btn, projects, localUser) {
     })
 }
 
-function addTask(id, user) {
+function addTask(id) {
     let addTaskBtn = document.querySelector('.project-block .project_controls .add_task')
     addTaskBtn.addEventListener('click', function (e) {
         let popupCreateTask = document.getElementById('task_create');
@@ -894,101 +912,144 @@ function addTask(id, user) {
         let taskIdBlock = document.querySelector('#task_create .new_task_form');
         taskIdBlock.setAttribute('data-project_id', id)
         let createTaskCloseBtn = document.querySelector('#task_create .popup_close_btn');
+        let inputsAutocomplete = document.querySelectorAll('input[data-input="autocomplete"]');
+        inputsAutocomplete.forEach(function (item) {
+            autocomplete(item, document.querySelector(`.${item.name}`), taskIdBlock);
+        })
+        let taskCreateBtn = document.querySelector('.popup_create .btn_create_task');
+        taskCreateBtn.addEventListener('click', createTask);
         createTaskCloseBtn.addEventListener('click', function (e) {
             closePopup('task_create');
             taskCreateBtn.removeEventListener('click', createTask);
         })
-        let inputsAutocomplete = document.querySelectorAll('input[data-input="autocomplete"]');
-        inputsAutocomplete.forEach(function (item) {
-            autocomplete(item, document.querySelector(`.${item.name}`), taskIdBlock)
-        })
-        let taskCreateBtn = document.querySelector('.popup_create .btn_create_task')
-        taskCreateBtn.addEventListener('click', createTask);
-        function createTask() {
-            let mainLocalItemTasks = JSON.parse(localStorage.getItem('main'))[0]['tasks_count'];
-            let currentDate = new Date();
-            let currentDateStr = dateToStr(currentDate);
-            console.log(currentDateStr)
-            let newObjectTask = {
-                status: 0,
-                date: {
-                    start: currentDateStr,
-                    deadline: '',
-                    complete: '',
-                },
-                description: '',
-                id: ++mainLocalItemTasks,
-                title: '',
-                users: {
-                    setter: {
-                        id: user.id
-                    },
-                    observer: {
-                        id: 0
-                    },
-                    executor: {
-                        id: 0
-                    }
-                },
+
+    })
+}
+function createTask() {
+    let user = getLocalUser();
+    let inputs = document.querySelectorAll('.new_task_form input');
+    let popup_error = document.querySelector('.new_task_form .modal_error');
+    let id = +document.querySelector('#task_create .new_task_form').getAttribute('data-project_id');
+    popup_error.innerHTML = ``;
+    let mainLocalItemTasks = JSON.parse(localStorage.getItem('main'))[0]['tasks_count'];
+    let currentDate = new Date();
+    let currentDateStr = dateToStr(currentDate);
+    console.log(currentDateStr)
+    let newObjectTask = {
+        status: 0,
+        date: {
+            start: currentDateStr,
+            deadline: '',
+            complete: '',
+        },
+        description: '',
+        id: ++mainLocalItemTasks,
+        title: '',
+        users: {
+            setter: {
+                id: user.id
+            },
+            observer: {
+                id: 0
+            },
+            executor: {
+                id: 0
             }
-            let validateTask = []
-            let inputs = document.querySelectorAll('.new_task_form input');
-            let popup_error = document.querySelector('.new_task_form .modal_error');
-            popup_error.innerHTML = ``;
-            inputs.forEach(function (input) {
-                if (input.getAttribute('data-input') === "autocomplete") {
-                    if (input.getAttribute('data-value') !== '') {
-                        newObjectTask.users[input.getAttribute('name')]['id'] = +input.getAttribute('data-value');
-                        validateTask.push(true);
-                    } else {
-                        validateTask.push(false);
-                    }
-                } else {
-                    if (input.value.length > 3) {
-                        if (input.getAttribute('name') === 'deadline') {
-                            console.log('deadline true')
-                            let deadline = input.value;
-                            console.log(input.value)
-                            let deadlineArr = deadline.split('-');
-                            let strDeadline = `${deadlineArr[2]}.${deadlineArr[1]}.${deadlineArr[0]}`
-                            newObjectTask.date.deadline = strDeadline;
-                            validateTask.push(true);
-                        }
-                        if (input.getAttribute('name') === 'title') {
-                            console.log('title true')
-                            validateTask.push(true);
-                            newObjectTask.title = input.value;
-                        }
-                    } else {
-                        validateTask.push(false);
+        },
+    }
+    let validateTask = taskValidation(inputs, newObjectTask);
+    setTask(validateTask, popup_error, newObjectTask, id);
+}
+function taskValidation(items, obj) {
+    let validateObj = {
+        deadline: false,
+        inputs: []
+    };
+    items.forEach(function (input) {
+        if (input.getAttribute('data-input') === "autocomplete") {
+            if (input.getAttribute('data-value') !== '') {
+                obj.users[input.getAttribute('name')]['id'] = +input.getAttribute('data-value');
+                validateObj.inputs.push(true);
+            } else {
+                validateObj.inputs.push(false);
+            }
+        } else {
+            if (input.value.length > 3) {
+                if (input.getAttribute('name') === 'deadline') {
+                    let deadline = input.value;
+                    let deadlineArr = deadline.split('-');
+                    let currentDate = new Date();
+                    let deadlineDate = new Date();
+                    deadlineDate.setDate(deadlineArr[2]);
+                    deadlineDate.setMonth(deadlineArr[1] - 1);
+                    deadlineDate.setFullYear(deadlineArr[0]);
+                    let dateResult = deadlineDate - currentDate;
+                    if(dateResult > 0){
+                        let strDeadline = `${deadlineArr[2]}.${deadlineArr[1]}.${deadlineArr[0]}`
+                        obj.date.deadline = strDeadline;
+                        validateObj.deadline = true;
+                    }else{
+                        validateObj.deadline = false;
                     }
                 }
-            })
-            newObjectTask.description = document.querySelector('.new_task_form textarea').value;
-            if (validateTask.indexOf(false) === -1) {
-                let localProjects = getLocalData('projects_data');
-                console.log(id)
-                let currentProjectIndex = 0;
-                let currentProject = localProjects.filter(function (item, index) {
-                    if (item['project_id'] === id) {
-                        currentProjectIndex = index;
-                        return item
-                    }
-                })
-                let currentProjectTasks = currentProject[0]['tasks'];
-                currentProjectTasks.push(newObjectTask);
-                localProjects[currentProjectIndex] = currentProject[0];
-                setLocalItem('projects_data', localProjects);
-                setMainCount('task');
-                popupCreateTask.style.display = 'none';
-                loadTasks(id,JSON.parse(sessionStorage.getItem('remember'))['task_select'])
+                if (input.getAttribute('name') === 'title') {
+                    validateObj.inputs.push(true);
+                    obj.title = input.value;
+                }
             } else {
-                popup_error.innerHTML = `Ошибка! Пожалуйста, заполните все поля!`;
+                validateObj.inputs.push(false);
             }
         }
     })
+    let taskDescription = document.querySelector('.new_task_form textarea');
+    if(taskDescription.value.length > 0){
+        obj.description = taskDescription.value;
+        validateObj.inputs.push(true);
+    }else{
+        validateObj.inputs.push(false);
+    }
+    return validateObj;
 }
-
+function setTask(validate, errorBlock, obj, id) {
+    console.log(validate);
+    let taskCreateBtn = document.querySelector('.popup_create .btn_create_task');
+    let popup_error = document.querySelector('.new_task_form .modal_error');
+    if (validate.deadline === true && validate.inputs.indexOf(false) === -1) {
+        let localProjects = getLocalData('projects_data');
+        let currentProjectIndex = 0;
+        let currentProject = localProjects.filter(function (item, index) {
+            if (item['project_id'] === id) {
+                currentProjectIndex = index;
+                return item
+            }
+        })
+        let currentProjectTasks = currentProject[0]['tasks'];
+        console.log(currentProjectTasks);
+        let taskIndex = currentProjectTasks.findIndex((item, index) =>{
+            if(item['id'] === 3){
+                return index
+            }
+        })
+        if(taskIndex === -1){
+            currentProjectTasks.push(obj);
+        }else{
+            currentProjectTasks[taskIndex] = obj;
+        }
+        localProjects[currentProjectIndex] = currentProject[0];
+        setLocalItem('projects_data', localProjects);
+        setMainCount('task');
+        taskCreateBtn.addEventListener('click', createTask);
+        closePopup('task_create');
+        loadTasks(id, JSON.parse(sessionStorage.getItem('remember'))['task_select'])
+    } else {
+        if(validate.deadline === false){
+            errorBlock.innerHTML += `<li>Крайний срок может быть установлен минимум на завтра!</li>`
+        }
+        if(validate.inputs.indexOf(false) > -1){
+            popup_error.innerHTML += `<li>Ошибка! Пожалуйста, заполните все поля!</li>`;
+        }
+    }
+}
 function setMainCount(name) {
     let mainJson = getLocalData('main')[0];
     ++mainJson[`${name}s_count`];

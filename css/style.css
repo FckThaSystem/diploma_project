@@ -70,9 +70,6 @@ header{
     padding: 10px;
     align-items: center;
 }
-.no-shadow_input{
-    box-shadow: none;
-}
 header .menu_left{
     display: flex;
 }
@@ -438,12 +435,24 @@ label{
 #view_task .view_task_row{
     display: flex;
     align-items: center;
+    margin: 10px 0;
 }
-#view_task .view_task_row img{
-    max-width: 80px;
+#view_task .view_task_grid{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+#view_task .users_row{
+    min-width: 150px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+#view_task .users_row img{
+    max-width: 50px;
     border-radius: 50%;
 }
-#view_task .view_task_row span{
+#view_task .view_task_row span, #view_task .users_row span{
     margin: 0 5px;
 }
 /*modal*/
