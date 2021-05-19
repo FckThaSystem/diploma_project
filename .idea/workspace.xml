@@ -13,7 +13,6 @@
     <list default="true" id="89206c34-2dae-4edc-a1dc-0d5ba8e17f76" name="Default Changelist" comment="18.05.2021  10:23">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/css/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/css/style.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/js/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/main.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -56,6 +55,7 @@
       <workItem from="1621322490551" duration="22000" />
       <workItem from="1621322528796" duration="8000" />
       <workItem from="1621322574237" duration="19630000" />
+      <workItem from="1621407704485" duration="21016000" />
     </task>
     <task id="LOCAL-00001" summary="18.05.2021  10:23">
       <created>1621322665567</created>
@@ -80,6 +80,7 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="18.05.2021  10:23" />

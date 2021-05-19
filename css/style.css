@@ -3,7 +3,6 @@
     margin: 0;
     font-family: 'PT Serif', serif;
 }
-
 ul li{
     padding-inline-start: 0;
 }
@@ -56,7 +55,6 @@ input[type="radio"], input[type="checkbox"]{
 }
 .btn_add p{
     margin-bottom: 5px;
-
 }
 select {
     border: none;
@@ -95,6 +93,7 @@ header .menu_left button{
 .btn_primary:hover{
     opacity: 0.9;
 }
+
 /*bright mode*/
 .bright_mode .home_page_link{
     color: #3f87a6!important;
@@ -142,6 +141,7 @@ header .menu_left button{
 .bright_mode .list_style li h4{
     color: #fff;
 }
+
 /*dark mode*/
 .dark_mode{
     background: #3C3F41;
@@ -197,6 +197,7 @@ header .menu_left button{
 .dark_mode .list_style li h4{
     color: #fff;
 }
+
 /*default styles*/
 .default_block{
     padding: 10px;
@@ -262,6 +263,7 @@ header .user_settings .user_data{
 .default_btn:hover{
     opacity: 0.8;
 }
+
 /*project block*/
 .project_task{
     padding: 10px;
@@ -300,14 +302,13 @@ header .user_settings .user_data{
     padding: 10px;
     border-bottom: 0.5px solid #c8c8c8;
 }
+
 /*header*/
 .user_data img{
  max-width: 50px;
     border-radius: 50%;
     margin-right: 10px;
 }
-
-
 .user_data{
     display: flex;
     align-items: center;
@@ -317,7 +318,6 @@ header .user_settings .user_data{
     align-items: center;
     margin-right: 10px;
     cursor: pointer;
-
 }
 .user_data .user-info:hover{
     opacity: 0.8;
@@ -329,6 +329,7 @@ header .user_settings .user_data{
     border-bottom: 1px solid #fff;
     border-top: 1px solid #fff;
 }
+
 /*popup create*/
 .popup_create{
     position: absolute;
@@ -413,7 +414,6 @@ label{
     align-items: center;
     width: 100%;
     cursor: pointer
-
 }
 .autocomplete_list li:hover{
     background-color: #c8c8c8;
@@ -455,6 +455,7 @@ label{
 #view_task .view_task_row span, #view_task .users_row span{
     margin: 0 5px;
 }
+
 /*modal*/
 .modal{
     position: absolute;
