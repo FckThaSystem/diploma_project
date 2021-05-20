@@ -606,7 +606,7 @@ function viewTask() {
                 userSetter = getUser(currentTask.users.setter.id, 'view'),
                 userExecutor = getUser(currentTask.users.executor.id, 'view'),
                 userObserver = getUser(currentTask.users.observer.id, 'view'),
-                html = `<div class="view_task_row"><h4>Название задачи: </h4><p>${currentTask.title}</p></div><hr/>
+                html = `<div class="view_task_row"><h4>Название задачи: </h4><p style="margin-left: 5px">${currentTask.title}</p></div><hr/>
             <div class="default_box"><h4>Описание задачи: </h4><span>${currentTask.description}</span></div>
             <div class="view_task_row">
             <div class="view_task_grid"><h4>Постановщик: </h4><span class="default_box users_row">${userSetter}</span></div>
