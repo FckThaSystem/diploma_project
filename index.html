@@ -2,8 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
     <link rel="stylesheet" href="css/style.css">
@@ -32,12 +31,8 @@
         </select>
     </div>
 </header>
-<div class="main_container">
-
-</div>
-<div class="footer">
-
-</div>
+<div class="main_container"></div>
+<div class="footer"></div>
 <div id="modal_registration" class="modal">
     <div class="modal_container">
         <div class="modal_header">
@@ -61,7 +56,6 @@
                 <label for="password">Пароль</label>
                 <input type="password" name="password" id="password">
                 <button class="submit_reg btn_primary">Зарегистроваться</button>
-<!--                <button class="auth">Уже есть аккаунт?</button>-->
             </div>
         </div>
     </div>
@@ -90,9 +84,7 @@
         <div class="modal_header">
             <span class="modal_head">Регистрация успешна!</span>
         </div>
-        <div class="modal_body">
-
-        </div>
+        <div class="modal_body"></div>
     </div>
 </div>
 <div id="task_create" class="popup_create">
@@ -106,7 +98,7 @@
         <label for="task_name">Название задачи</label>
         <input type="text" name="title" id="task_name" placeholder="Название задачи" style="width: 95%">
         <label for="task_name">Описание задачи</label>
-        <textarea type="text" name="description" id="task_description" placeholder="Описание задачи" style="width: 95%; height: 250px"></textarea>
+        <textarea name="description" id="task_description" placeholder="Описание задачи" style="width: 95%; height: 250px"></textarea>
         <label for="executor_name">Исполнитель</label>
         <input type="text" name="executor" id="executor_name" placeholder="Имя исполнителя" style="width: 95%" data-input="autocomplete">
         <div class="executor"></div>
@@ -119,7 +111,6 @@
                 <input type="date" name="deadline" id="deadline" pattern="[0-9]{2}.[0-9]{2}.[0-9]{4}">
             </div>
         </div>
-        </select>
         <button class="btn_create_task btn_primary">Создать задачу</button>
     </div>
 </div>
@@ -129,9 +120,7 @@
             <i class="fa fa-times" aria-hidden="true"></i>
         </button>
         <h3 class="popup_title">Детали задачи</h3></div>
-    <div class="task_body">
-
-    </div>
+    <div class="task_body"></div>
 </div>
 <div id="project_create" class="modal">
     <div class="modal_container">
@@ -146,9 +135,7 @@
                 <input type="text" placeholder="Введите название проекта" name="project_name" id="project_name">
                 <label for="project_name">Моя должность</label>
                 <input type="text" placeholder="Введите название должности" name="owner_position" id="owner_position">
-                <div class="add_user_block" data-count="0">
-
-                </div>
+                <div class="add_user_block" data-count="0"></div>
                 <div class="default_box-row">
                     <button class="add_user_btn btn_primary">Добавить участника<i style="margin-left: 10px" class="fa fa-user-plus" aria-hidden="true"></i></button>
                     <button id="create_project" class="btn_primary">Создать проект</button>

@@ -6,6 +6,15 @@
         <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
         <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
       </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
     </expand>
     <select />
   </component>
@@ -13,6 +22,7 @@
     <list default="true" id="89206c34-2dae-4edc-a1dc-0d5ba8e17f76" name="Default Changelist" comment="18.05.2021  10:23">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/css/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/css/style.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/js/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/main.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -87,6 +97,10 @@
     <option name="LAST_COMMIT_MESSAGE" value="18.05.2021  10:23" />
   </component>
   <component name="WindowStateProjectService">
+    <state x="617" y="218" key="#Inspections" timestamp="1621495320070">
+      <screen x="62" y="0" width="1858" height="1080" />
+    </state>
+    <state x="617" y="218" key="#Inspections/62.0.1858.1080/1920.0.1920.1040/3840.0.1920.1040@62.0.1858.1080" timestamp="1621495320070" />
     <state x="771" y="295" key="FileChooserDialogImpl" timestamp="1621322505041">
       <screen x="62" y="0" width="1858" height="1080" />
     </state>

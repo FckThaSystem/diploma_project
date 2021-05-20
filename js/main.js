@@ -1,55 +1,55 @@
 document.addEventListener('DOMContentLoaded', function () {
     // reg and auth init
-        getJsonSetLocal();
-        let regBtn = document.querySelector('header .user_settings .registration');
-        registration(regBtn);
-        let authBtn = document.querySelector('header .user_settings .authorization');
-        authorization(authBtn);
-        renderAuthUserBlock();
-        getTheme();
-        let myProjectsBtn = document.querySelector('header .menu_left .my_projects');
-        myProjectsBtn.addEventListener('click', function () {
-            renderProjectsList();
-        })
-        let homeBtn = document.querySelector('.home.default_btn');
-        homeBtn.addEventListener('click', function () {
-            let mainPage = mainPageContent();
-            renderPage(mainPage);
-            rememberContent();
-        })
-        if(sessionStorage.getItem('remember')){
-            let localRemember = JSON.parse(sessionStorage.getItem('remember'));
-            switch (localRemember.page) {
-                case 'project_list':
-                    renderProjectsList();
-                    break;
-                case 'project_data':
-                    loadTasks(localRemember['project_id'], localRemember['task_select']);
-                    break;
-                default:
-                    let mainPage = mainPageContent();
-                    renderPage(mainPage)
-            }
-        }else{
-            let mainPage = mainPageContent();
-            renderPage(mainPage);
+    getJsonSetLocal();
+    let regBtn = document.querySelector('header .user_settings .registration');
+    registration(regBtn);
+    let authBtn = document.querySelector('header .user_settings .authorization');
+    authorization(authBtn);
+    renderAuthUserBlock();
+    getTheme();
+    let myProjectsBtn = document.querySelector('header .menu_left .my_projects');
+    myProjectsBtn.addEventListener('click', function () {
+        renderProjectsList();
+    });
+    let homeBtn = document.querySelector('.home.default_btn');
+    homeBtn.addEventListener('click', function () {
+        let mainPage = mainPageContent();
+        renderPage(mainPage);
+        rememberContent();
+    });
+    if (sessionStorage.getItem('remember')) {
+        let localRemember = JSON.parse(sessionStorage.getItem('remember'));
+        switch (localRemember.page) {
+            case 'project_list':
+                renderProjectsList();
+                break;
+            case 'project_data':
+                loadTasks(localRemember['project_id'], localRemember['task_select']);
+                break;
+            default:
+                let mainPage = mainPageContent();
+                renderPage(mainPage);
         }
-})
+    } else {
+        let mainPage = mainPageContent();
+        renderPage(mainPage);
+    }
+});
 
 function rememberContent(name, id, type, selectVal) {
     let loadObj = {
         page: name,
-        project_id: id !== undefined && type === 'project'? id : 0,
-        task_id: id !== undefined && type === 'task'? id : 0,
+        project_id: id !== undefined && type === 'project' ? id : 0,
+        task_id: id !== undefined && type === 'task' ? id : 0,
         task_select: selectVal !== undefined ? selectVal : 1
-    }
+    };
     sessionStorage.setItem('remember', JSON.stringify(loadObj));
 }
 
 function getTheme() {
     let localTheme = getLocalData('theme');
     let themeBlock = document.getElementById('theme');
-    let themeObj = { theme: 2 };
+    let themeObj = {theme: 2};
     if (!localTheme) {
         setLocalItem('theme', themeObj);
         document.body.classList.add('bright_mode');
@@ -104,25 +104,27 @@ function getLocalUser() {
 function mainPageContent() {
     let localUser = getLocalUser();
     let localProjects = getLocalData('projects_data');
-    if(localUser){
+    if (localUser) {
         let setter = getTasks('setter');
         let executor = getTasks('executor');
         let completed = executor.filter(function (item) {
-            if(item.status === 2){
+            if (item.status === 2) {
                 return item;
             }
-        })
-        function getTasks(name){
-          let newArr = [];
-          localProjects.forEach((project)=>{
-               project['tasks'].filter(function (item) {
-                    if(item['users'][name]['id'] === localUser.id){
+        });
+
+        function getTasks(name) {
+            let newArr = [];
+            localProjects.forEach((project) => {
+                project.tasks.filter(function (item) {
+                    if (item['users'][name]['id'] === localUser.id) {
                         newArr.push(item);
                     }
-                })
-            })
+                });
+            });
             return newArr;
         }
+
         let sex = '';
         localUser.sex === 'male' ? sex = 'мужской' : 'женский';
         var homeHtml = `<h2 style="text-align: center; margin: 15px 0">Данные пользователя</h2>
@@ -144,7 +146,7 @@ function mainPageContent() {
                         <span><b>Выполнено задач:</b> ${completed.length}</span>
                         </span>
                         </div>`;
-    }else{
+    } else {
         var homeHtml = `<div class="default_box">
                         <h3>Здравствуйте, Гость!</h3>
                         <p>Добро пожаловать в наше приложение</p>
@@ -168,25 +170,25 @@ function getDataJson(url) {
     }).catch((e) => {
         console.log(e);
         alert('Ой, произошла ошибка при загрузке данных, пожалуйста, обратитесь к администратору!');
-    })
-    return jsonData
+    });
+    return jsonData;
 }
 
 function getJsonSetLocal() {
     if (!localStorage.getItem('users_data')) {
-        getDataJson('json/users.json').then((response) => {
+        getDataJson('json/users.json').then(response => {
             setLocalItem('users_data', response);
-        })
+        });
     }
     if (!localStorage.getItem('projects_data')) {
-        getDataJson('json/projects.json').then((response) => {
+        getDataJson('json/projects.json').then(response => {
             setLocalItem('projects_data', response);
-        })
+        });
     }
     if (!localStorage.getItem('main')) {
-        getDataJson('json/main.json').then((response) => {
+        getDataJson('json/main.json').then(response => {
             setLocalItem('main', response);
-        })
+        });
     }
 }
 
@@ -197,12 +199,13 @@ function registration(btn) {
     btn.addEventListener('click', function () {
         modalRegistration.classList.add('modal_active');
         submitBtn.addEventListener('click', submitReg);
-    })
+    });
     document.querySelector('#modal_registration .modal_close').addEventListener('click', function () {
         closeModal(modalRegistration);
         submitBtn.removeEventListener('click', submitReg);
-    })
-    function submitReg(){
+    });
+
+    function submitReg() {
         let inputs = document.querySelectorAll('#modal_registration .modal_body input');
         let errorBlock = document.querySelector('#modal_registration .modal_error ul');
         let usersLocal = getLocalData('users_data');
@@ -233,8 +236,8 @@ function registration(btn) {
             }
             if (item.name === 'email') {
                 let usersEmailArr = usersLocal.map(function (item) {
-                    return item['email'];
-                })
+                    return item.email;
+                });
                 item.value = item.value.replace(/'[а-яА-Я ]'/g, '');
                 if (item.value.indexOf('@') === -1 || item.value.length < 6) {
                     validateArr.push(false);
@@ -272,7 +275,7 @@ function registration(btn) {
                     newUser[item.name] = item.value;
                 }
             }
-        })
+        });
         if (validateArr.indexOf(false) !== -1) {
             let errorParent = errorBlock.parentNode;
             errorParent.style.display = 'block';
@@ -287,7 +290,7 @@ function registration(btn) {
             submitBtn.removeEventListener('click', submitReg);
             inputs.forEach(function (item) {
                 item.value = '';
-            })
+            });
             let modalSuccess = document.querySelector('#modal_success');
             modalSuccess.querySelector('.modal_body').innerHTML = `<i style="color:#3f87a6; font-size: 2em; margin: 0 auto;" class="fa fa-check-square-o" aria-hidden="true"></i><p style="margin-top: 10px"><span style="font-weight: 900">${newUser.name}</span>, спасибо за регистрацию! Регистрация успешна!</p>`;
             modalSuccess.classList.add('modal_active');
@@ -306,10 +309,10 @@ function authorization(btn) {
     let authError = document.querySelector('#modal_authorization .modal_body .modal_error ul');
     btn.addEventListener('click', function () {
         modalAuth.classList.add('modal_active');
-    })
+    });
     document.querySelector('#modal_authorization .modal_close').addEventListener('click', function () {
         closeModal(modalAuth);
-    })
+    });
     logInBtn.addEventListener('click', function () {
         authError.innerHTML = ``;
         let inputs = document.querySelectorAll('#modal_authorization .modal_body input');
@@ -321,10 +324,10 @@ function authorization(btn) {
             remember: remember.checked
         };
         let usersFilter = usersArr.filter(function (item) {
-            if (item['email'] === authValidateObj.email && item['password'] === authValidateObj.password) {
+            if (item.email === authValidateObj.email && item.password === authValidateObj.password) {
                 return item;
             }
-        })
+        });
         let parentBlock = authError.parentNode;
         if (usersFilter.length > 0) {
             parentBlock.style.display = 'none';
@@ -335,19 +338,18 @@ function authorization(btn) {
             } else {
                 sessionStorage.setItem('user_logged', JSON.stringify(authUserObject));
             }
-            renderAuthUserBlock()
+            renderAuthUserBlock();
             modalAuth.classList.remove('modal_active');
             inputs.forEach(function (item) {
                 item.value = '';
-            })
+            });
             let mainPage = mainPageContent();
             renderPage(mainPage);
         } else {
             authError.innerHTML = `<li><b>Ошибка авторизации!</b><br/>Неверный e-mail или пароль</li>`;
             parentBlock.style.display = 'block';
         }
-    })
-
+    });
 }
 
 // проверка на наличие в базе аватарки
@@ -362,7 +364,7 @@ function renderAuthUserBlock() {
         userDataBlock = document.querySelector('header .user_settings .user_data');
     if (localLoggedData) {
         let userAvatar = ifNoAvatar(localLoggedData.avatar);
-        let dataHtml = `<div class="user-info"><img src="${userAvatar}" alt=""><span>${localLoggedData.name}</span></div><button class="log_out default_btn">Выход</button>`
+        let dataHtml = `<div class="user-info"><img src="${userAvatar}" alt=""><span>${localLoggedData.name}</span></div><button class="log_out default_btn">Выход</button>`;
         userDataBlock.innerHTML = dataHtml;
     }
     let userLogOutBtn = document.querySelector('header .user_settings .user_data .log_out');
@@ -383,7 +385,7 @@ function renderAuthUserBlock() {
             authorization(authBtn);
             let mainPage = mainPageContent();
             renderPage(mainPage);
-        })
+        });
     }
 }
 
@@ -395,27 +397,27 @@ function createProject() {
         createProjectBtn = document.getElementById('create_project');
     createProject.addEventListener('click', function () {
         let main = getLocalData('main')[0];
-        projectCreateModal.setAttribute('data-project_id', `${main['projects_count']+ 1}`)
+        projectCreateModal.setAttribute('data-project_id', `${main['projects_count'] + 1}`);
         projectCreateModal.classList.add('modal_active');
         addUserBtn.addEventListener('click', addUser);
         createProjectBtn.addEventListener('click', createProjectSubmit);
-    })
+    });
     projectCreateClose.addEventListener('click', function () {
         closeModal(projectCreateModal);
         addUserBtn.removeEventListener('click', addUser);
         createProjectBtn.removeEventListener('click', createProjectSubmit);
-    })
+    });
 
-        function addUser() {
-            let addUserBlock = document.querySelector('#project_create .add_user_block');
-            let count = +addUserBlock.getAttribute('data-count');
-            let newCount = ++count;
-            addUserBlock.setAttribute('data-count', `${newCount}`);
-            let name = `user-${newCount}`;
-            let inputUserBlock = document.createElement('div');
-            inputUserBlock.setAttribute('class', 'input_user_block');
-            inputUserBlock.setAttribute('data-user', `${name}`);
-            let userBlockHtml = `<ul class="input_error"></ul>
+    function addUser() {
+        let addUserBlock = document.querySelector('#project_create .add_user_block');
+        let count = +addUserBlock.getAttribute('data-count');
+        let newCount = ++count;
+        addUserBlock.setAttribute('data-count', `${newCount}`);
+        let name = `user-${newCount}`;
+        let inputUserBlock = document.createElement('div');
+        inputUserBlock.setAttribute('class', 'input_user_block');
+        inputUserBlock.setAttribute('data-user', `${name}`);
+        let userBlockHtml = `<ul class="input_error"></ul>
                                  <span class="remove_user" data-user="${name}"><i class="fa fa-times" aria-hidden="true"></i></span>
                                  <div class="input_user_block_container">
                                  <div class="flex_column_block">
@@ -425,176 +427,178 @@ function createProject() {
                                  <div class="flex_column_block">
                                  <label for="${name}-position">Должность кандидата</label>
                                  <input type="text" placeholder="Введите должность" id="${name}-position" name="${name}-position"></div></div>`;
-            inputUserBlock.innerHTML = userBlockHtml;
-            addUserBlock.appendChild(inputUserBlock);
-            let removeUserBtns = document.querySelectorAll('#project_create .add_user_block .input_user_block .remove_user');
-            removeUserBtns.forEach(function (btn) {
-                btn.addEventListener('click', function () {
-                    this.parentElement.remove();
-                    --count;
-                    addUserBlock.setAttribute('data-count', `${count}`);
-                })
-            })
-            autocomplete(document.querySelector(`#project_create input[name="${name}"]`), document.querySelector(`#project_create .${name}`), projectCreateModal)
+        inputUserBlock.innerHTML = userBlockHtml;
+        addUserBlock.appendChild(inputUserBlock);
+        let removeUserBtns = document.querySelectorAll('#project_create .add_user_block .input_user_block .remove_user');
+        removeUserBtns.forEach(function (btn) {
+            btn.addEventListener('click', function () {
+                this.parentElement.remove();
+                --count;
+                addUserBlock.setAttribute('data-count', `${count}`);
+            });
+        });
+        autocomplete(document.querySelector(`#project_create input[name="${name}"]`), document.querySelector(`#project_create .${name}`), projectCreateModal);
+    }
+
+    function createProjectSubmit() {
+        let main = getLocalData('main')[0];
+        let newProjectObj = {
+            project: '',
+            project_id: main['projects_count'] + 1,
+            project_users: [],
+            tasks: []
+        };
+        let projectUsersData = document.querySelectorAll('#project_create .input_user_block');
+        let modalError = document.querySelector('#project_create .modal_error');
+        modalError.innerHTML = ``;
+        let globalProjectValidateArr = [];
+        let usersId = [];
+        let usersArr = [];
+        if (projectUsersData.length > 0) {
+            projectUsersData.forEach(function (item) {
+                let userObj = {
+                    user_id: 0,
+                    user_position: ''
+                };
+                let validateArr = [];
+                let inputs = item.getElementsByTagName("input");
+                let errorBlock = item.querySelector('.input_error');
+                errorBlock.innerHTML = '';
+                if (inputs[0].getAttribute('data-value') !== '') {
+                    userObj.user_id = +inputs[0].getAttribute('data-value');
+                    usersId.push(+inputs[0].getAttribute('data-value'));
+                    validateArr.push(true);
+                } else {
+                    errorBlock.innerHTML += '<li>Выберите кандидата</li>';
+                    validateArr.push(false);
+                }
+                if (inputs[1].value.length > 0) {
+                    userObj.user_position = inputs[1].value;
+                    validateArr.push(true);
+                } else {
+                    errorBlock.innerHTML += '<li>Напишите должность кандидата</li>';
+                    validateArr.push(false);
+                }
+                if (!validateArr.includes(false)) {
+                    usersArr.push(userObj);
+                    globalProjectValidateArr.push(true);
+                } else {
+                    globalProjectValidateArr.push(false);
+                }
+            });
+        } else {
+            modalError.style.display = 'block';
+            modalError.innerHTML += `<li>Необходимо добавить в проект хотя бы одного участника!</li>`;
         }
+        let projectName = document.querySelector('#project_create input[name="project_name"]');
 
-        function createProjectSubmit() {
-            let main = getLocalData('main')[0];
-            let newProjectObj = {
-                project: '',
-                project_id: main['projects_count']+ 1,
-                project_users: [],
-                tasks: []
-            };
-            let projectUsersData = document.querySelectorAll('#project_create .input_user_block');
-            let modalError = document.querySelector('#project_create .modal_error');
-            modalError.innerHTML = ``;
-            let globalProjectValidateArr = [];
-            let usersId = [];
-            let usersArr = [];
-            if(projectUsersData.length > 0){
-                projectUsersData.forEach(function (item) {
-                    let userObj = {
-                        user_id : 0,
-                        user_position: ''
-                    };
-                    let validateArr = [];
-                    let inputs = item.getElementsByTagName("input");
-                    let errorBlock = item.querySelector('.input_error');
-                    errorBlock.innerHTML = '';
-                    if(inputs[0].getAttribute('data-value') !== ''){
-                        userObj.user_id = +inputs[0].getAttribute('data-value');
-                        usersId.push(+inputs[0].getAttribute('data-value'));
-                        validateArr.push(true);
-                    }else{
-                        errorBlock.innerHTML += '<li>Выберите кандидата</li>';
-                        validateArr.push(false);
-                    }
-                    if(inputs[1].value.length > 0){
-                        userObj.user_position = inputs[1].value;
-                        validateArr.push(true);
-                    }else{
-                        errorBlock.innerHTML += '<li>Напишите должность кандидата</li>';
-                        validateArr.push(false);
-                    }
-                    if(!validateArr.includes(false)){
-                        usersArr.push(userObj);
-                        globalProjectValidateArr.push(true);
-                    }else{
-                        globalProjectValidateArr.push(false);
-                    }
-                })
-            }else{
-                modalError.style.display = 'block';
-                modalError.innerHTML += `<li>Необходимо добавить в проект хотя бы одного участника!</li>`;
-            }
-            let projectName = document.querySelector('#project_create input[name="project_name"]');
-
-            if(projectName.value.length > 0){
-                newProjectObj.project = projectName.value;
-                globalProjectValidateArr.push(true);
-            }else{
-                globalProjectValidateArr.push(false);
-                modalError.innerHTML += `<li>Введите название проета</li>`;
-            }
-            let ownerPosition = document.querySelector('#project_create input[name="owner_position"]');
-            if(ownerPosition.value.length > 0){
-                let owner = getLocalUser(),
-                    ownerObj = {
-                    user_id : owner.id,
+        if (projectName.value.length > 0) {
+            newProjectObj.project = projectName.value;
+            globalProjectValidateArr.push(true);
+        } else {
+            globalProjectValidateArr.push(false);
+            modalError.innerHTML += `<li>Введите название проета</li>`;
+        }
+        let ownerPosition = document.querySelector('#project_create input[name="owner_position"]');
+        if (ownerPosition.value.length > 0) {
+            let owner = getLocalUser(),
+                ownerObj = {
+                    user_id: owner.id,
                     user_position: ownerPosition.value
                 };
-                usersId.push(owner.id);
-                usersArr.push(ownerObj);
-                globalProjectValidateArr.push(true);
-            }else{
-                globalProjectValidateArr.push(false);
-                modalError.innerHTML += `<li>Введите свою должность в проекте</li>`;
-            }
-            if(!globalProjectValidateArr.includes(false)){
-                let globalProject = getLocalData('projects_data');
-                let getGlobalUsers = getLocalData('users_data');
-                let localUser = getLocalUser();
-                localUser.projects.push(main['projects_count'] + 1);
-                if(localStorage.getItem('user_logged')){
-                    localStorage.setItem('user_logged', JSON.stringify(localUser));
-                }else{
-                    sessionStorage.setItem('user_logged', JSON.stringify(localUser));
-                }
-                getGlobalUsers.forEach(function (item) {
-                    if(usersId.includes(item.id)){
-                        item.projects.push(newProjectObj.project_id);
-                    }
-                })
-                setLocalItem('users_data', getGlobalUsers)
-                newProjectObj.project_users = usersArr;
-                globalProject.push(newProjectObj);
-                setLocalItem('projects_data', globalProject);
-                setMainCount('project');
-                let projectInputs = document.querySelectorAll('#project_create input')
-                projectInputs.forEach(function (item) {
-                    item.value = '';
-                });
-                let inputUsersBlocks = document.querySelectorAll('#project_create .add_user_block .input_user_block');
-                if(inputUsersBlocks.length > 0){
-                    inputUsersBlocks.forEach(function (item) {
-                        item.remove();
-                    })
-                }
-                closeModal(projectCreateModal);
-                loadTasks(newProjectObj.project_id, JSON.parse(sessionStorage.getItem('remember'))['task_select']);
-            }
+            usersId.push(owner.id);
+            usersArr.push(ownerObj);
+            globalProjectValidateArr.push(true);
+        } else {
+            globalProjectValidateArr.push(false);
+            modalError.innerHTML += `<li>Введите свою должность в проекте</li>`;
         }
+        if (!globalProjectValidateArr.includes(false)) {
+            let globalProject = getLocalData('projects_data');
+            let getGlobalUsers = getLocalData('users_data');
+            let localUser = getLocalUser();
+            localUser.projects.push(main['projects_count'] + 1);
+            if (localStorage.getItem('user_logged')) {
+                localStorage.setItem('user_logged', JSON.stringify(localUser));
+            } else {
+                sessionStorage.setItem('user_logged', JSON.stringify(localUser));
+            }
+            getGlobalUsers.forEach(function (item) {
+                if (usersId.includes(item.id)) {
+                    item.projects.push(newProjectObj.project_id);
+                }
+            });
+            setLocalItem('users_data', getGlobalUsers);
+            newProjectObj.project_users = usersArr;
+            globalProject.push(newProjectObj);
+            setLocalItem('projects_data', globalProject);
+            setMainCount('project');
+            let projectInputs = document.querySelectorAll('#project_create input');
+            projectInputs.forEach(function (item) {
+                item.value = '';
+            });
+            let inputUsersBlocks = document.querySelectorAll('#project_create .add_user_block .input_user_block');
+            if (inputUsersBlocks.length > 0) {
+                inputUsersBlocks.forEach(function (item) {
+                    item.remove();
+                });
+            }
+            closeModal(projectCreateModal);
+            loadTasks(newProjectObj.project_id, JSON.parse(sessionStorage.getItem('remember'))['task_select']);
+        }
+    }
 }
+
 // render projects
 
 function renderProjectsList() {
-        rememberContent('project_list');
-        let localUserData = getLocalUser();
-        if (localUserData) {
-            if (localUserData.projects.length > 0) {
-                let userProjects = localUserData.projects;
-                let globalProjects = getLocalData('projects_data');
-                let activeProjects = globalProjects.filter(function (item) {
-                    if (userProjects.includes(item['project_id'])) {
-                        return item;
-                    }
-                })
-                let html = `<div class="default_box">
+    rememberContent('project_list');
+    let localUserData = getLocalUser();
+    if (localUserData) {
+        if (localUserData.projects.length > 0) {
+            let userProjects = localUserData.projects;
+            let globalProjects = getLocalData('projects_data');
+            let activeProjects = globalProjects.filter(function (item) {
+                if (userProjects.includes(item['project_id'])) {
+                    return item;
+                }
+            });
+            let html = `<div class="default_box">
                             <ul class="list_style">`;
-                for (let i = 0; i < activeProjects.length; i++) {
-                    html += `<li class="active_project" data-id="${activeProjects[i]['project_id']}">
+            for (let i = 0; i < activeProjects.length; i++) {
+                html += `<li class="active_project" data-id="${activeProjects[i]['project_id']}">
                                 <h4>${activeProjects[i]['project']}</h4>
                                 <button class="default_btn">Перейти в проект</button>
                              </li>`;
-                }
-                html += `</ul>
+            }
+            html += `</ul>
                              <button class="create_project btn_primary" style="max-width: 400px; margin: 0 auto">Создать проект<i style="margin-left: 10px" class="fa fa-plus-circle" aria-hidden="true"></i></button>
                              </div>`;
-                renderPage(html);
-                let infoProjectsBtn = document.querySelectorAll('.main_container .list_style .active_project button');
-                renderTasks(infoProjectsBtn);
-                createProject();
-            } else {
-                let html = `<div class="default_block">
+            renderPage(html);
+            let infoProjectsBtn = document.querySelectorAll('.main_container .list_style .active_project button');
+            renderTasks(infoProjectsBtn);
+            createProject();
+        } else {
+            let html = `<div class="default_block">
                             <p>Вы еще не учавствуете в проектах</p>
                             <button class="create_project btn_primary" style="max-width: 400px; margin: 0 auto">Создать проект<i style="margin-left: 10px" class="fa fa-plus-circle" aria-hidden="true"></i></button>
                             </div>`;
-                renderPage(html);
-                createProject();
-            }
-
-        } else {
-            let html = `<div class="default_block"><h3>Для того что бы учавствовать в проетах, нужно авторизоваться!</h3>`;
             renderPage(html);
+            createProject();
         }
+
+    } else {
+        let html = `<div class="default_block"><h3>Для того что бы учавствовать в проетах, нужно авторизоваться!</h3>`;
+        renderPage(html);
+    }
 }
+
 function viewTask() {
     let viewTaskModal = document.getElementById('view_task'),
         viewTaskBody = viewTaskModal.querySelector('.task_body'),
         viewTaskClose = viewTaskModal.querySelector('.popup_close_btn'),
         viewTaskBtns = document.querySelectorAll('.project-block .project_task .view_task');
-        viewTaskBtns.forEach(item =>{
+    viewTaskBtns.forEach(item => {
         item.addEventListener('click', function () {
             let thisId = +this.getAttribute('data-id'),
                 currentTask = getCurrentTask(thisId),
@@ -609,7 +613,7 @@ function viewTask() {
             <div class="view_task_grid"><h4>Ответственный: </h4><span class="default_box users_row">${userExecutor}</span></div>
             <div class="view_task_grid"><h4>Наблюдатель: </h4><span class="default_box users_row">${userObserver}</span></div>
             </div>`;
-            switch (currentTask.status){
+            switch (currentTask.status) {
                 case 3:
                     html += `<div class="view_task_row"><h4>Статус: </h4><span>Задача просрочена</span></div><hr/>`;
                     break;
@@ -623,33 +627,36 @@ function viewTask() {
                              <div class="view_task_row"><h4>Выполнить до: </h4><span>${currentTask.date.deadline}</span></div><hr/>
                              <div class="view_task_row"><h4>Статус: </h4><span>${taskStatus}</span></div><hr/>`;
             }
-            if(currentTask.users.setter.id === getLocalUser()['id']){
+            if (currentTask.users.setter.id === getLocalUser()['id']) {
                 html += `<button class="edit-task btn_primary" data-id="${thisId}">Редактировать задачу</button>`;
             }
             viewTaskBody.innerHTML = html;
             viewTaskModal.classList.add('modal_active');
             let editTask = document.querySelector('#view_task .edit-task');
-            if(editTask){
+            if (editTask) {
                 editTask.addEventListener('click', taskEdit);
             }
-        })
-    })
-viewTaskClose.addEventListener('click', viewPopupClose)
+        });
+    });
+    viewTaskClose.addEventListener('click', viewPopupClose);
+
     function viewPopupClose() {
         viewTaskModal.classList.remove('modal_active');
         viewTaskBody.innerHTML = '';
     }
 }
+
 function getUser(id, appointment) {
     let usersArr = getLocalData('users_data');
     let user = usersArr.filter(item => {
-        if(item['id'] === id){
+        if (item.id === id) {
             return item;
         }
-    })
+    });
     let userAvatar = ifNoAvatar(user[0]['avatar']);
     return appointment === 'view' ? `<img src="${userAvatar}" alt=""><span>${user[0]['name']}</span>` : user;
 }
+
 function taskEdit() {
     let taskId = +this.getAttribute('data-id'),
         currentTask = getCurrentTask(taskId),
@@ -671,7 +678,7 @@ function taskEdit() {
         closeEditTask = modal.querySelector('.popup_close_btn');
     inputsAutocomplete.forEach(function (item) {
         autocomplete(item, document.querySelector(`.${item.name}`), popupProjectId);
-    })
+    });
     popupProjectId.setAttribute('data-project_id', projectId);
     executor.setAttribute('data-value', currentTask.users.executor.id);
     executor.value = userName(currentTask.users.executor.id);
@@ -686,12 +693,14 @@ function taskEdit() {
     btnEditTask.setAttribute('data-task', `${taskId}`);
     closeEditTask.addEventListener('click', closeEdit);
     btnEditTask.addEventListener('click', editTaskSubmit);
+
     function closeEdit() {
         closePopup('task_create');
         btnEditTask.removeEventListener('click', editTaskSubmit);
         closeEditTask.removeEventListener('click', closeEdit);
     }
 }
+
 function editTaskSubmit() {
     let taskId = +this.getAttribute('data-task'),
         currentTask = getCurrentTask(taskId),
@@ -699,28 +708,28 @@ function editTaskSubmit() {
         inputs = modal.querySelectorAll('input'),
         popup_error = modal.querySelector('.modal_error'),
         projectId = +modal.querySelector('.new_task_form').getAttribute('data-project_id');
-        popup_error.innerHTML = ``;
+    popup_error.innerHTML = ``;
     let validateTask = taskValidation(inputs, currentTask);
     setTask(validateTask, popup_error, currentTask, projectId);
 }
 
-function getProjectId(items, id){
+function getProjectId(items, id) {
     let itemId = 0;
     items.forEach(item => {
-        item['tasks'].forEach(i => {
+        item.tasks.forEach(i => {
             if (i.id === id) {
                 itemId = item.project_id;
             }
-        })
-    })
+        });
+    });
     return itemId;
 }
 
 function userName(id) {
     let users = getLocalData('users_data');
     let currentUser = users.filter(item => {
-        if(item.id === id){
-            return item
+        if (item.id === id) {
+            return item;
         }
     });
     let userNameText = currentUser[0]['name'];
@@ -731,11 +740,11 @@ function getCurrentTask(id) {
     let projects = getLocalData('projects_data');
     let taskArr = [];
     projects.forEach(project => {
-        project['tasks'].filter(task => {
-            if(task['id'] === id){
-                taskArr.push(task)
+        project.tasks.filter(task => {
+            if (task.id === id) {
+                taskArr.push(task);
             }
-        })
+        });
     });
     return taskArr[0];
 }
@@ -744,35 +753,34 @@ function loadTasks(id, selectVal) {
     let usersData = getLocalData('users_data'),
         projects = getLocalData('projects_data'),
         localUserData = getLocalUser();
-    if(projects){
+    if (projects) {
         var selectedProjectArr = projects.filter(item => {
             if (item['project_id'] === id) {
                 return item;
             }
-        })
-    }else{
+        });
+    } else {
         return;
     }
     let selectedProject = selectedProjectArr[0];
-    let projectTasks = selectedProject['tasks'];
+    let projectTasks = selectedProject.tasks;
     let html = `<div class="project-block">
-                <div class="project-info"><h2>${selectedProject['project']}</h2></div>
+                <div class="project-info"><h2>${selectedProject.project}</h2></div>
                 <div class="project_controls">
-                <div class="tasks_filters">`
-    if(selectVal === 1){
-        html +=`<select name="select_tasks" id="select_tasks" style="border: 1px solid #c8c8c8">
+                <div class="tasks_filters">`;
+    if (selectVal === 1) {
+        html += `<select name="select_tasks" id="select_tasks" style="border: 1px solid #c8c8c8">
                 <option value="1" selected="selected">Все</option>
                 <option value="2">Мои задачи</option></select>`;
-    }else if(selectVal === 2){
-        html +=`<select name="select_tasks" id="select_tasks" style="border: 1px solid #c8c8c8">
+    } else if (selectVal === 2) {
+        html += `<select name="select_tasks" id="select_tasks" style="border: 1px solid #c8c8c8">
                 <option value="1">Все</option>
                 <option value="2" selected="selected">Мои задачи</option></select>`;
     }
-        html +=`</div>
+    html += `</div>
                 <div class="project_edit">
-                <button class="add_user btn_primary"><i class="fa fa-user-plus" aria-hidden="true"></i></button>
                 <button class="add_task btn_primary"><i class="fa fa-plus-circle" aria-hidden="true"></i></button></div></div>`;
-    if(projectTasks.length > 0){
+    if (projectTasks.length > 0) {
         for (let i = 0; i < projectTasks.length; i++) {
             let DeadlineString = projectTasks[i]['date']['deadline'],
                 DeadlineStringArr = DeadlineString.split('.'),
@@ -783,92 +791,93 @@ function loadTasks(id, selectVal) {
             for (let users in projectTasks[i]['users']) {
                 usersArr.push(projectTasks[i]['users'][users]['id']);
             }
-            if(selectVal == 1 || undefined){
+            if (selectVal == 1 || undefined) {
                 shapeTasks();
-            }else if(selectVal == 2){
-                if (usersArr.indexOf(localUserData['id']) !== -1) {
+            } else if (selectVal == 2) {
+                if (usersArr.indexOf(localUserData.id) !== -1) {
                     shapeTasks();
                 }
             }
+
             function shapeTasks() {
-                     if (timeLeft < 0) {
-                         html += `<div class="project_task task_time_left" data-id="${projectTasks[i]['id']}">
+                if (timeLeft < 0) {
+                    html += `<div class="project_task task_time_left" data-id="${projectTasks[i]['id']}">
                                   <span>${projectTasks[i]['title']}</span>
                                   <span>${projectTasks[i]['description']}</span>`;
-                     } else {
-                         html += `<div class="project_task" data-id="${projectTasks[i]['id']}">
+                } else {
+                    html += `<div class="project_task" data-id="${projectTasks[i]['id']}">
                                   <span>${projectTasks[i]['title']}</span>
                                   <span>${projectTasks[i]['description']}</span>`;
-                            }
-                     let setterData = {},
-                         executorData = {},
-                         observerData = {};
-                     for (let item = 0; item < usersData.length; item++) {
-                         if (usersData[item]['id'] === projectTasks[i]['users']['setter']['id']) {
-                             setterData = usersData[item];
-                         }
-                         if (usersData[item]['id'] === projectTasks[i]['users']['executor']['id']) {
-                             executorData = usersData[item];
-                         }
-                         if (usersData[item]['id'] === projectTasks[i]['users']['observer']['id']) {
-                             observerData = usersData[item]
-                         }
-                     }
-                     let setterAvatar = ifNoAvatar(setterData['avatar']),
-                         executorAvatar = ifNoAvatar(executorData['avatar']),
-                         observerAvatar = ifNoAvatar(observerData['avatar']);
-                         html += `<span data-id="${setterData['id']}">Постановщик: <img src="${setterAvatar}" alt="">${setterData['name']}</span>`;
-                         html += `<span data-id="${executorData['id']}">Исполнитель: <img src="${executorAvatar}" alt="">${executorData['name']}</span>`;
-                         html += `<span data-id="${observerData['id']}">Наблюдатель: <img src="${observerAvatar}" alt="">${observerData['name']}</span>`;
-                     if(projectTasks[i]['status'] === 2){
-                         html += `<span style="font-weight: bold">Задача выполнена!</span>
+                }
+                let setterData = {},
+                    executorData = {},
+                    observerData = {};
+                for (let item = 0; item < usersData.length; item++) {
+                    if (usersData[item]['id'] === projectTasks[i]['users']['setter']['id']) {
+                        setterData = usersData[item];
+                    }
+                    if (usersData[item]['id'] === projectTasks[i]['users']['executor']['id']) {
+                        executorData = usersData[item];
+                    }
+                    if (usersData[item]['id'] === projectTasks[i]['users']['observer']['id']) {
+                        observerData = usersData[item]
+                    }
+                }
+                let setterAvatar = ifNoAvatar(setterData.avatar),
+                    executorAvatar = ifNoAvatar(executorData.avatar),
+                    observerAvatar = ifNoAvatar(observerData.avatar);
+                html += `<span data-id="${setterData.id}">Постановщик: <img src="${setterAvatar}" alt="">${setterData.name}</span>`;
+                html += `<span data-id="${executorData.id}">Исполнитель: <img src="${executorAvatar}" alt="">${executorData.name}</span>`;
+                html += `<span data-id="${observerData.id}">Наблюдатель: <img src="${observerAvatar}" alt="">${observerData.name}</span>`;
+                if (projectTasks[i]['status'] === 2) {
+                    html += `<span style="font-weight: bold">Задача выполнена!</span>
                                   <span>Дата выполнения: ${projectTasks[i]['date']['completed']}</span>`;
-                     }else{
-                         if (timeLeft < 0) {
-                             html += `<span style="font-weight: bold">Задача просрочена!</span>
+                } else {
+                    if (timeLeft < 0) {
+                        html += `<span style="font-weight: bold">Задача просрочена!</span>
                                       <span>deadline: ${projectTasks[i]['date']['deadline']}</span>`;
-                         } else {
-                             html += `<span>До конца: ${timeLeft} дня</span>
+                    } else {
+                        html += `<span>До конца: ${timeLeft} дня</span>
                                       <span>deadline: ${projectTasks[i]['date']['deadline']}</span>`;
-                         }
-                     }
-                     html += `<div style="display: flex; align-items: center">
+                    }
+                }
+                html += `<div style="display: flex; align-items: center">
                               <button class="view_task btn_primary" style="max-width: 50px" data-id="${projectTasks[i]['id']}"><i class="fa fa-eye" aria-hidden="true"></i></button>`;
-                     if (timeLeft > 0) {
-                         if (executorData['id'] === localUserData['id']) {
-                             switch (projectTasks[i]['status']) {
-                                     case 0:
-                                            html += `<select name="status" id="status" style="border: 1px solid #c8c8c8; margin-left: 5px">
+                if (timeLeft > 0) {
+                    if (executorData.id === localUserData.id) {
+                        switch (projectTasks[i]['status']) {
+                            case 0:
+                                html += `<select name="status" id="status" style="border: 1px solid #c8c8c8; margin-left: 5px">
                                                      <option value="0" selected="selected">Поставлена</option>
                                                      <option value="1">В работе</option>
                                                      <option value="2">Выполнена</option></select>`;
-                                            break;
-                                     case 1:
-                                            html += `<select name="status" id="status" style="border: 1px solid #c8c8c8; margin-left: 5px">
+                                break;
+                            case 1:
+                                html += `<select name="status" id="status" style="border: 1px solid #c8c8c8; margin-left: 5px">
                                                      <option value="0">Поставлена</option>
                                                      <option value="1" selected="selected">В работе</option>
                                                      <option value="2">Выполнена</option></select>`;
-                                            break;
-                                     case 2:
-                                            html += `<select name="status" id="status" style="border: 1px solid #c8c8c8; margin-left: 5px" disabled>
+                                break;
+                            case 2:
+                                html += `<select name="status" id="status" style="border: 1px solid #c8c8c8; margin-left: 5px" disabled>
                                                      <option value="0">Поставлена</option>
                                                      <option value="1">В работе</option>
                                                      <option value="2" selected="selected">Выполнена</option></select>`;
-                                            break;
-                                     default:
-                                            html += `<select name="status" id="status" style="border: 1px solid #c8c8c8; margin-left: 5px">
+                                break;
+                            default:
+                                html += `<select name="status" id="status" style="border: 1px solid #c8c8c8; margin-left: 5px">
                                                      <option value="0" selected="selected">Поставлена</option>
                                                      <option value="1">В работе</option>
                                                      <option value="2">Выполнена</option></select>`;
-                             }
-                             html += `</div></div>`;
-                         } else {
-                             let statusText = taskStatusName(projectTasks[i]['status']);
-                             html += `<span style="margin-left: 5px" data-status="${projectTasks[i]['status']}">${statusText}</span></div></div>`;
-                         }
-                     } else {
-                             html += `<span style="margin-left: 5px" data-status="3">Просрочена</span></div></div>`;
-                     }
+                        }
+                        html += `</div></div>`;
+                    } else {
+                        let statusText = taskStatusName(projectTasks[i]['status']);
+                        html += `<span style="margin-left: 5px" data-status="${projectTasks[i]['status']}">${statusText}</span></div></div>`;
+                    }
+                } else {
+                    html += `<span style="margin-left: 5px" data-status="3">Просрочена</span></div></div>`;
+                }
             }
         }
     } else {
@@ -884,9 +893,10 @@ function loadTasks(id, selectVal) {
     select.addEventListener('change', function () {
         rememberContent('project_data', id, 'project', +select.value);
         loadTasks(id, +select.value);
-    })
+    });
     viewTask();
 }
+
 function taskStatusName(data) {
     let statusText = ``;
     switch (data) {
@@ -904,6 +914,7 @@ function taskStatusName(data) {
     }
     return statusText;
 }
+
 function setTaskStatus(selects, projectId, prjArr) {
     selects.forEach(function (select) {
         select.addEventListener('change', function (e) {
@@ -912,7 +923,7 @@ function setTaskStatus(selects, projectId, prjArr) {
                 if (project['project_id'] === projectId) {
                     return project;
                 }
-            })
+            });
             let tasks = currentProject[0]['tasks'];
             let taskIndex;
             let changedTask = tasks.filter(function (item, index) {
@@ -920,7 +931,7 @@ function setTaskStatus(selects, projectId, prjArr) {
                     taskIndex = index;
                     return index;
                 }
-            })
+            });
             let newStatus = +e.target.value;
             let dateComplete = dateToStr(new Date());
             changedTask[0]['date']['completed'] = dateComplete;
@@ -938,7 +949,7 @@ function renderTasks(btn) {
         item.addEventListener('click', function () {
             let projectId = +item.parentNode.getAttribute('data-id');
             loadTasks(projectId, JSON.parse(sessionStorage.getItem('remember'))['task_select']);
-        })
+        });
     })
 }
 
@@ -953,15 +964,16 @@ function addTask(id) {
         let inputsAutocomplete = document.querySelectorAll('input[data-input="autocomplete"]');
         inputsAutocomplete.forEach(function (item) {
             autocomplete(item, document.querySelector(`.${item.name}`), taskIdBlock);
-        })
+        });
         let taskCreateBtn = document.querySelector('.popup_create .btn_create_task');
         taskCreateBtn.addEventListener('click', createTask);
         createTaskCloseBtn.addEventListener('click', function () {
             closePopup('task_create');
             taskCreateBtn.removeEventListener('click', createTask);
-        })
-    })
+        });
+    });
 }
+
 function createTask() {
     let user = getLocalUser(),
         inputs = document.querySelectorAll('.new_task_form input'),
@@ -971,31 +983,32 @@ function createTask() {
         currentDate = new Date(),
         currentDateStr = dateToStr(currentDate),
         newObjectTask = {
-        status: 0,
-        date: {
-            start: currentDateStr,
-            deadline: '',
-            complete: '',
-        },
-        description: '',
-        id: ++mainLocalItemTasks,
-        title: '',
-        users: {
-            setter: {
-                id: user.id
+            status: 0,
+            date: {
+                start: currentDateStr,
+                deadline: '',
+                complete: '',
             },
-            observer: {
-                id: 0
-            },
-            executor: {
-                id: 0
+            description: '',
+            id: ++mainLocalItemTasks,
+            title: '',
+            users: {
+                setter: {
+                    id: user.id
+                },
+                observer: {
+                    id: 0
+                },
+                executor: {
+                    id: 0
+                }
             }
-        }
-    };
+        };
     popup_error.innerHTML = ``;
     let validateTask = taskValidation(inputs, newObjectTask);
     setTask(validateTask, popup_error, newObjectTask, id);
 }
+
 function taskValidation(items, obj) {
     let validateObj = {
         deadline: false,
@@ -1020,7 +1033,7 @@ function taskValidation(items, obj) {
                     deadlineDate.setMonth(deadlineArr[1] - 1);
                     deadlineDate.setFullYear(deadlineArr[0]);
                     let dateResult = deadlineDate - currentDate;
-                    if(dateResult > 0){
+                    if (dateResult > 0) {
                         let strDeadline = `${deadlineArr[2]}.${deadlineArr[1]}.${deadlineArr[0]}`
                         obj.date.deadline = strDeadline;
                         validateObj.deadline = true;
@@ -1038,14 +1051,15 @@ function taskValidation(items, obj) {
         }
     })
     let taskDescription = document.querySelector('.new_task_form textarea');
-    if(taskDescription.value.length > 0){
+    if (taskDescription.value.length > 0) {
         obj.description = taskDescription.value;
         validateObj.inputs.push(true);
-    }else{
+    } else {
         validateObj.inputs.push(false);
     }
     return validateObj;
 }
+
 function setTask(validate, errorBlock, obj, id) {
     let taskCreateBtn = document.querySelector('.popup_create .btn_create_task');
     let popup_error = document.querySelector('.new_task_form .modal_error');
@@ -1057,15 +1071,15 @@ function setTask(validate, errorBlock, obj, id) {
                 currentProjectIndex = index;
                 return item;
             }
-        })
+        });
         let currentProjectTasks = currentProject[0]['tasks'];
-        let taskIndex = currentProjectTasks.findIndex((item) =>{
-                return item['id'] === obj['id'];
+        let taskIndex = currentProjectTasks.findIndex((item) => {
+            return item['id'] === obj['id'];
         })
-        if(taskIndex === -1){
+        if (taskIndex === -1) {
             currentProjectTasks.push(obj);
             taskCreateBtn.removeEventListener('click', createTask);
-        }else{
+        } else {
             currentProjectTasks[taskIndex] = obj;
             taskCreateBtn.removeEventListener('click', editTaskSubmit);
         }
@@ -1075,10 +1089,10 @@ function setTask(validate, errorBlock, obj, id) {
         closePopup('task_create');
         loadTasks(id, JSON.parse(sessionStorage.getItem('remember'))['task_select']);
     } else {
-        if(validate.deadline === false){
+        if (validate.deadline === false) {
             errorBlock.innerHTML += `<li>Крайний срок может быть установлен минимум на завтра!</li>`;
         }
-        if(validate.inputs.indexOf(false) > -1){
+        if (validate.inputs.indexOf(false) > -1) {
             popup_error.innerHTML += `<li>Ошибка! Пожалуйста, заполните все поля!</li>`;
         }
     }
@@ -1091,32 +1105,32 @@ function setMainCount(name) {
 }
 
 function dateToStr(date) {
-    let currentMonth = `${date.getMonth() + 1}`
+    let currentMonth = `${date.getMonth() + 1}`;
     if (date.getMonth() + 1 < 10) {
-        currentMonth = `0${date.getMonth() + 1}`
+        currentMonth = `0${date.getMonth() + 1}`;
     }
     let dateStr = `${date.getDate()}.${currentMonth}.${date.getFullYear()}`;
     return dateStr;
 }
 
 function closePopup(elemId) {
-        let popupBlock = document.getElementById(elemId);
-        popupBlock.style.display = 'none';
-        let inputs = document.querySelectorAll(`#${elemId} input`);
-        let textAreas = document.querySelectorAll(`#${elemId} textarea`);
-        let selects = document.querySelectorAll(`#${elemId} select`);
-        let itemsArr = [inputs, textAreas, selects];
-        (function (arrays) {
-            arrays.forEach(function (arr){
-                arr.forEach(function (item) {
-                    item.value = '';
-                })
-            })
-        })(itemsArr)
+    let popupBlock = document.getElementById(elemId);
+    popupBlock.style.display = 'none';
+    let inputs = document.querySelectorAll(`#${elemId} input`);
+    let textAreas = document.querySelectorAll(`#${elemId} textarea`);
+    let selects = document.querySelectorAll(`#${elemId} select`);
+    let itemsArr = [inputs, textAreas, selects];
+    (function (arrays) {
+        arrays.forEach(function (arr) {
+            arr.forEach(function (item) {
+                item.value = '';
+            });
+        });
+    })(itemsArr);
 }
 
 function closeModal(block) {
-        block.classList.remove('modal_active');
+    block.classList.remove('modal_active');
 }
 
 // автозаполнение полей данными
@@ -1128,15 +1142,15 @@ function autocomplete(elem, block, taskIdBlock) {
         let usersData = getLocalData('users_data');
         let autocomplete = document.querySelector('.autocomplete_list');
         let value = e.target.value;
-        if(taskID <= main['projects_count']){
+        if (taskID <= main['projects_count']) {
             var dataItems = usersData.filter(function (item) {
                 if (value.length > 2 && item.name.includes(value) === true && item.projects.includes(taskID) === true) {
                     return item;
                 }
             })
-        } else if(taskID > main['projects_count']){
+        } else if (taskID > main['projects_count']) {
             var dataItems = usersData.filter(function (item) {
-                if(value.length > 2 && item.name.includes(value) && item.id !== currentUser['id']){
+                if (value.length > 2 && item.name.includes(value) && item.id !== currentUser['id']) {
                     return item;
                 }
             });
@@ -1148,7 +1162,7 @@ function autocomplete(elem, block, taskIdBlock) {
             dataItems.forEach(function (item) {
                 let avatar = ifNoAvatar(item.avatar);
                 html += `<li data-id="${item.id}"><img src="${avatar}"><span class="name">${item.name}</span></li>`;
-            })
+            });
             elem.style.position = 'relative';
             if (autocomplete) {
                 autocompleteList.innerHTML = html;
@@ -1173,6 +1187,6 @@ function selectAutocomplete(input) {
             input.setAttribute('data-value', item.getAttribute('data-id'));
             input.value = item.children[1].textContent;
             item.parentElement.remove();
-        })
-    })
+        });
+    });
 }
